@@ -7,11 +7,12 @@ from services.gfs_service import GFSClient, GFSServiceError
 def gfs_client():
     return GFSClient()
 
-@patch('requests.head')
-def test_get_latest_available_cycle_success(mock_head, gfs_client):
+@patch('requests.get')
+def test_get_latest_available_cycle_success(mock_get, gfs_client):
     mock_resp = MagicMock()
     mock_resp.status_code = 200
-    mock_head.return_value = mock_resp
+    mock_resp.text = "gfs.t12z.pgrb2.0p25.f000"
+    mock_get.return_value = mock_resp
     
     date_str, cycle_str = gfs_client._get_latest_available_cycle()
     
@@ -21,11 +22,11 @@ def test_get_latest_available_cycle_success(mock_head, gfs_client):
     assert isinstance(cycle_str, str)
     assert len(cycle_str) == 2
 
-@patch('requests.head')
-def test_get_latest_available_cycle_fail(mock_head, gfs_client):
+@patch('requests.get')
+def test_get_latest_available_cycle_fail(mock_get, gfs_client):
     mock_resp = MagicMock()
     mock_resp.status_code = 404
-    mock_head.return_value = mock_resp
+    mock_get.return_value = mock_resp
     
     with pytest.raises(GFSServiceError) as exc:
         gfs_client._get_latest_available_cycle()
