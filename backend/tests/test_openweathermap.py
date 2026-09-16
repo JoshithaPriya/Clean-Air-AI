@@ -1,6 +1,8 @@
 import pytest
 import requests
 import requests_mock
+import os
+from unittest.mock import patch
 from services.openweathermap_service import OpenWeatherMapClient, OpenWeatherMapServiceError
 
 @pytest.fixture
@@ -115,6 +117,7 @@ def test_fetch_timeout(owm_client, requests_mock):
         
     assert exc_info.value.status_code == 504
 
+@patch.dict(os.environ, {"OPENWEATHERMAP_API_KEY": ""})
 def test_fetch_missing_api_key():
     client = OpenWeatherMapClient()
     client.api_key = None
