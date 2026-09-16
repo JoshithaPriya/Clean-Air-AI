@@ -17,17 +17,19 @@ def create_app():
         return jsonify({
             'status': 'success',
             'message': 'Backend is running!',
-            'phase': 'Phase 1C'
+            'phase': 'Phase 1D'
         }), 200
 
     # Register Blueprints
     from routes.air_quality import air_quality_bp
     from routes.weather import weather_bp
     from routes.era5 import era5_bp
+    from routes.gfs import gfs_bp
     
     app.register_blueprint(air_quality_bp, url_prefix='/api/air-quality')
     app.register_blueprint(weather_bp, url_prefix='/api/weather')
     app.register_blueprint(era5_bp, url_prefix='/api/weather')
+    app.register_blueprint(gfs_bp, url_prefix='/api/weather')
 
     # Basic error handler
     @app.errorhandler(404)
