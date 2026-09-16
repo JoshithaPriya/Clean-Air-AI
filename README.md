@@ -3,13 +3,16 @@
 ## Project Overview
 Clean Air & Climate Resilience is a BRICS-ready AI pollution intelligence platform. 
 
-## Phase 1A Scope (Current)
-This phase introduces the **OpenAQ Data Connector**. 
+## Phase 1B Scope (Current)
+This phase introduces the **OpenWeatherMap Live Weather Connector**.
 It includes:
-- A dedicated OpenAQ client service to fetch air quality data.
-- Normalization of raw OpenAQ responses into a standard internal format.
-- A new modular `air_quality` blueprint route (`/api/air-quality/openaq`).
-- Unit testing with `pytest` and mocked HTTP requests.
+- A dedicated OpenWeatherMap client service to fetch current weather.
+- Normalization of raw weather responses into a standard internal format.
+- A new modular `weather` blueprint route (`/api/weather/openweathermap`).
+- Expanded unit testing with `pytest` for the new connector.
+
+## Phase 1A Scope
+This phase introduced the **OpenAQ Data Connector**.
 
 ## Phase 0 Scope
 This phase established the foundational project structure, containing:
@@ -63,23 +66,34 @@ This phase established the foundational project structure, containing:
 
 ## API Endpoints
 - `GET /api/health` - Returns JSON confirming the backend is operational.
-- `GET /api/air-quality/openaq?city={City}&limit={Limit}` - Returns normalized OpenAQ air quality measurements.
+- `GET /api/air-quality/openaq?iso={CountryCode}&limit={Limit}` - Returns normalized OpenAQ air quality measurements.
+- `GET /api/weather/openweathermap?lat={Latitude}&lon={Longitude}` - Returns normalized current weather data.
   - **Example Response:**
     ```json
     {
       "status": "success",
-      "data": [
-        {
-          "station_id": 8118,
-          "city": "Delhi",
-          "country": "IN",
-          "coordinates": {"latitude": 28.6322, "longitude": 77.2199},
-          "timestamp": "2023-10-25T12:00:00Z",
-          "pollutant": "pm25",
-          "value": 150.5,
-          "unit": "µg/m³",
-          "source": "Caqi"
-        }
-      ]
+      "data": {
+        "location_id": 1264527,
+        "city_name": "Chennai",
+        "country": "IN",
+        "coordinates": {
+          "latitude": 13.0827,
+          "longitude": 80.2707
+        },
+        "timestamp_utc": "2023-10-25T13:20:00+00:00",
+        "temperature_c": 28.5,
+        "feels_like_c": 32.1,
+        "humidity_percent": 75,
+        "pressure_hpa": 1008,
+        "wind": {
+          "speed_m_s": 4.1,
+          "direction_deg": 140
+        },
+        "cloud_coverage_percent": 0,
+        "condition": "Clear",
+        "description": "clear sky",
+        "precipitation": null,
+        "timezone_offset_seconds": 19800
+      }
     }
     ```
