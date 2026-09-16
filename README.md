@@ -3,15 +3,16 @@
 ## Project Overview
 Clean Air & Climate Resilience is a BRICS-ready AI pollution intelligence platform. 
 
-## Phase 0 Scope
-This phase establishes the foundational project structure, containing:
-- A React frontend.
-- A Python Flask backend API.
-- Basic frontend-backend communication (CORS enabled).
-- Health check API endpoint.
-- Environment variables support.
+## Phase 1A Scope (Current)
+This phase introduces the **OpenAQ Data Connector**. 
+It includes:
+- A dedicated OpenAQ client service to fetch air quality data.
+- Normalization of raw OpenAQ responses into a standard internal format.
+- A new modular `air_quality` blueprint route (`/api/air-quality/openaq`).
+- Unit testing with `pytest` and mocked HTTP requests.
 
-**Note:** Future phases will introduce external APIs (OpenAQ, OpenWeatherMap, etc.), Machine Learning components (Gemini, Vertex AI), databases (BigQuery, Firestore), and cloud deployment infrastructure. These are intentionally omitted in Phase 0.
+## Phase 0 Scope
+This phase established the foundational project structure, containing:
 
 ## Technology Stack
 - **Frontend**: React
@@ -53,7 +54,32 @@ This phase establishes the foundational project structure, containing:
 ### Frontend Setup
 1. Navigate to the frontend directory: `cd frontend`
 2. Install dependencies: `npm install`
-3. Start the React app: `npm start` (App runs at http://localhost:3000)
+3. Start the React app: `npm run dev` (App runs at http://localhost:3000)
+
+### Testing
+1. Navigate to the backend directory: `cd backend`
+2. Ensure virtual environment is activated.
+3. Run the test suite: `pytest tests/`
 
 ## API Endpoints
-- `GET /api/health` - Returns JSON confirming the backend is operational and running Phase 0.
+- `GET /api/health` - Returns JSON confirming the backend is operational.
+- `GET /api/air-quality/openaq?city={City}&limit={Limit}` - Returns normalized OpenAQ air quality measurements.
+  - **Example Response:**
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "station_id": 8118,
+          "city": "Delhi",
+          "country": "IN",
+          "coordinates": {"latitude": 28.6322, "longitude": 77.2199},
+          "timestamp": "2023-10-25T12:00:00Z",
+          "pollutant": "pm25",
+          "value": 150.5,
+          "unit": "µg/m³",
+          "source": "Caqi"
+        }
+      ]
+    }
+    ```

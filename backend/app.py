@@ -1,6 +1,10 @@
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv(override=True)
 
 def create_app():
     app = Flask(__name__)
@@ -13,8 +17,12 @@ def create_app():
         return jsonify({
             'status': 'success',
             'message': 'Backend is running!',
-            'phase': 'Phase 0'
+            'phase': 'Phase 1A'
         }), 200
+
+    # Register Blueprints
+    from routes.air_quality import air_quality_bp
+    app.register_blueprint(air_quality_bp, url_prefix='/api/air-quality')
 
     # Basic error handler
     @app.errorhandler(404)
