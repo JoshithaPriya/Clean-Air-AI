@@ -20,7 +20,8 @@ class OpenWeatherMapClient:
         """
         Fetches current weather from OpenWeatherMap and normalizes the response.
         """
-        self.api_key = os.environ.get('OPENWEATHERMAP_API_KEY')
+        if not self.api_key:
+            self.api_key = os.environ.get('OPENWEATHERMAP_API_KEY')
         if not self.api_key:
             raise OpenWeatherMapServiceError("Unauthorized: Missing OpenWeatherMap API Key in configuration", status_code=401)
             
