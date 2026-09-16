@@ -26,12 +26,14 @@ def create_app():
     from routes.era5 import era5_bp
     from routes.gfs import gfs_bp
     from routes.earth_engine import earth_engine_bp
+    from routes.satellite import satellite_bp
     
     app.register_blueprint(air_quality_bp, url_prefix='/api/air-quality')
     app.register_blueprint(weather_bp, url_prefix='/api/weather')
     app.register_blueprint(era5_bp, url_prefix='/api/weather/era5')
     app.register_blueprint(gfs_bp, url_prefix='/api/weather/gfs')
     app.register_blueprint(earth_engine_bp, url_prefix='/api/earth-engine')
+    app.register_blueprint(satellite_bp, url_prefix='/api/satellite')
 
     # Basic error handler
     @app.errorhandler(404)
